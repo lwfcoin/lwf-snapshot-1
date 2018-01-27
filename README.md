@@ -11,7 +11,7 @@ For more information about LWF please visit - https://lwf.io
 Execute the following commands
 ```
 cd ~/
-git clone https://github.com/samuelpaulsun/lwf-snapshot.git
+git clone https://github.com/samuelpaulsun/lwf-snapshot
 cd lwf-snapshot/
 bash lwf-snapshot.sh help
 ```
