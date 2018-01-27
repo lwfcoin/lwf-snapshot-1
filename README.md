@@ -4,14 +4,14 @@ v0.2
 For more information about LWF please visit - https://lwf.io
 
 ##Requisites
-    - This script works with postgres and lf_db, configured with lwf user
+    - This script works with postgres and lwf_db, configured with LWF user
     - You need to have sudo privileges
 
 ##Installation
 Execute the following commands
 ```
 cd ~/
-git clone https://github.com/samuelpaulsun/lwf-snapshot
+git clone https://github.com/samuelpaulsun/lwf-snapshot.git
 cd lwf-snapshot/
 bash lwf-snapshot.sh help
 ```
