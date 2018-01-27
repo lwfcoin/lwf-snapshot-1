@@ -11,25 +11,25 @@ export LANGUAGE=en_US.UTF-8
 #============================================================
 echo " "
 
-if [ ! -f ../shift/app.js ]; then
-  echo "Error: No shift installation detected. Exiting."
+if [ ! -f ../lwf-node/app.js ]; then
+  echo "Error: No LWF installation detected. Exiting."
   exit 1
 fi
 
 if [ "\$USER" == "root" ]; then
-  echo "Error: SHIFT should not be run be as root. Exiting."
+  echo "Error: LWF should not be run be as root. Exiting."
   exit 1
 fi
 
-SHIFT_CONFIG=~/shift/config.json
-DB_NAME="$(grep "database" $SHIFT_CONFIG | cut -f 4 -d '"')"
-DB_USER="$(grep "user" $SHIFT_CONFIG | cut -f 4 -d '"')"
-DB_PASS="$(grep "password" $SHIFT_CONFIG | cut -f 4 -d '"' | head -1)"
+LWF_CONFIG=~/lwf-node/config.json
+DB_NAME="$(grep "database" $LWF_CONFIG | cut -f 4 -d '"')"
+DB_USER="$(grep "user" $LWF_CONFIG | cut -f 4 -d '"')"
+DB_PASS="$(grep "password" $LWF_CONFIG | cut -f 4 -d '"' | head -1)"
 SNAPSHOT_COUNTER=snapshot/counter.json
 SNAPSHOT_LOG=snapshot/snapshot.log
 if [ ! -f "snapshot/counter.json" ]; then
   mkdir -p snapshot
-  sudo chmod a+x shift-snapshot.sh
+  sudo chmod a+x lwf-snapshot.sh
   echo "0" > $SNAPSHOT_COUNTER
   sudo chown postgres:${USER:=$(/usr/bin/id -run)} snapshot
   sudo chmod -R 777 snapshot
@@ -45,7 +45,7 @@ create_snapshot() {
   echo " + Creating snapshot"
   echo "--------------------------------------------------"
   echo "..."
-  sudo su postgres -c "pg_dump -Ft $DB_NAME > $SNAPSHOT_DIRECTORY'shift_db$NOW.snapshot.tar'"
+  sudo su postgres -c "pg_dump -Ft $DB_NAME > $SNAPSHOT_DIRECTORY'lwf_db$NOW.snapshot.tar'"
   blockHeight=`psql -d $DB_NAME -U $DB_USER -h localhost -p 5432 -t -c "select height from blocks order by height desc limit 1;"`
   dbSize=`psql -d $DB_NAME -U $DB_USER -h localhost -p 5432 -t -c "select pg_size_pretty(pg_database_size('$DB_NAME'));"`
 
@@ -61,7 +61,7 @@ create_snapshot() {
 restore_snapshot(){
   echo " + Restoring snapshot"
   echo "--------------------------------------------------"
-  SNAPSHOT_FILE=`ls -t snapshot/shift_db* | head  -1`
+  SNAPSHOT_FILE=`ls -t snapshot/lwf_db* | head  -1`
   if [ -z "$SNAPSHOT_FILE" ]; then
     echo "****** No snapshot to restore, please consider create it first"
     echo " "
@@ -122,6 +122,6 @@ case $1 in
   echo "Error: Unrecognized command."
   echo ""
   echo "Available commands are: create, restore, log, help"
-  echo "Try: bash shift-snapshot.sh help"
+  echo "Try: bash lwf-snapshot.sh help"
   ;;
 esac
