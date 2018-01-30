@@ -1,5 +1,5 @@
-#shift-snapshot
-A bash script to automate backups for SHIFT blockchain<br>
+#lwf-snapshot
+A bash script to automate backups for LWF blockchain<br>
 v0.2
 For more information about LWF please visit - https://lwf.io
 
